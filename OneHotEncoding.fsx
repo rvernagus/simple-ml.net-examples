@@ -32,6 +32,12 @@ type AbaloneData =
         Rings : single
     }
 
+[<CLIMutable>]
+type EncodedSex =
+    {
+        Sex : string
+        EncodedSex : single[]
+    }
 
 if not <| File.Exists("ablone.data") then
     use client = new WebClient()
@@ -41,18 +47,12 @@ let context = new MLContext()
 
 let dataView = context.Data.LoadFromTextFile<AbaloneData>("abalone.data", hasHeader = false, separatorChar = ',')
 
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values.[0])
-|> Seq.iter (printfn "%A")
-
-printfn "---------------------------"
-
-let encoder = context.Transforms.Categorical.OneHotEncoding("Sex")
+let encoder = context.Transforms.Categorical.OneHotEncoding(inputColumnName = "Sex", outputColumnName = "EncodedSex")
 let transformer = encoder.Fit(dataView)
 let transformedDataView = transformer.Transform(dataView)
 
-transformedDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> [row.Values.[0]; row.Values.[1]; row.Values.[2]])
-|> Seq.iter (printfn "%A")
+let encodedLabels = context.Data.CreateEnumerable<EncodedSex>(transformedDataView, reuseRowObject = false)
+do
+    encodedLabels
+    |> Seq.take 10
+    |> Seq.iter (printfn "%A")
