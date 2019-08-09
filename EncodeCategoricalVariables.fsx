@@ -47,6 +47,13 @@ type AdultData =
         Target : string
     }
 
+[<CLIMutable>]
+type EncodedLabel =
+    {
+        Label : string
+        EncodedLabel : bool
+    }
+
 
 if not <| File.Exists("adult.data") then
     use client = new WebClient()
@@ -56,13 +63,6 @@ let context = new MLContext()
 
 let dataView = context.Data.LoadFromTextFile<AdultData>("adult.data", hasHeader = false, separatorChar = ',')
 
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values.[14])
-|> Seq.iter (printfn "%A")
-
-printfn "---------------------------"
-
 let labelLookup =
     [|
         KeyValuePair("<=50K", false)
@@ -71,11 +71,12 @@ let labelLookup =
         KeyValuePair(">50K.", true)
     |]
 
-let encoder = context.Transforms.Conversion.MapValue("Label", labelLookup)
+let encoder = context.Transforms.Conversion.MapValue(inputColumnName = "Label", outputColumnName = "EncodedLabel", keyValuePairs = labelLookup)
 let transformer = encoder.Fit(dataView)
 let transformedDataView = transformer.Transform(dataView)
 
-transformedDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> [row.Values.[14]; row.Values.[15]])
-|> Seq.iter (printfn "%A")
+let encodedLabels = context.Data.CreateEnumerable<EncodedLabel>(transformedDataView, reuseRowObject = false)
+do
+    encodedLabels
+    |> Seq.take 10
+    |> Seq.iter (printfn "%A")
