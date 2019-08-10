@@ -35,25 +35,23 @@ let textLoader = context.Data.CreateTextLoader(columns, hasHeader = false, separ
 
 let allDataView = textLoader.Load("arrhythmia.data")
 
-allDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values.[14])
-|> Seq.iter (printfn "%A")
-
-printfn "---------------------------"
-
 let transformer =
     EstimatorChain()
     |> fun chain -> chain.Append(context.Transforms.Concatenate("Features", featureColumns))
-    |> fun chain -> chain.Append(context.Transforms.ReplaceMissingValues("Features", replacementMode = MissingValueReplacingEstimator.ReplacementMode.Mean))
+    |> fun chain -> chain.Append(context.Transforms.ReplaceMissingValues(inputColumnName = "Features", outputColumnName = "FeaturesFilled", replacementMode = MissingValueReplacingEstimator.ReplacementMode.Mean))
     |> (fun pipeline -> pipeline.Fit(allDataView))
 
 
 let transformedDataView = transformer.Transform(allDataView)
 
-transformedDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values.[281])
-|> Seq.map (fun v -> v.Value :?> VBuffer<single>)
-|> Seq.map (fun vec -> vec.DenseValues())
-|> Seq.iter (fun vals -> printfn "%A" (Seq.item 13 vals))
+// Try different columns: 13, 14 all have missing values to show
+let columnIndex = 13
+let originalColumn = transformedDataView.GetColumn<single>(string columnIndex)
+let filledColumn = transformedDataView.GetColumn<single[]>("FeaturesFilled")
+
+do
+    filledColumn
+    |> Seq.map (fun row -> row.[columnIndex])
+    |> Seq.zip originalColumn
+    |> Seq.take 15
+    |> Seq.iter (printfn "%A")
