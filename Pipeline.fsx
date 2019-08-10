@@ -14,20 +14,28 @@ type AbaloneData =
     {
         [<LoadColumn(0)>]
         Sex : string
+
         [<LoadColumn(1)>]
         Length : float32
+
         [<LoadColumn(2)>]
         Diameter : float32
+
         [<LoadColumn(3)>]
         Height : float32
+
         [<LoadColumn(4)>]
         WholeWeight : float32
+
         [<LoadColumn(5)>]
         ShuckedWeight : float32
+
         [<LoadColumn(6)>]
         VisceraWeight : float32
+
         [<LoadColumn(7)>]
         ShellWeight : float32
+
         [<LoadColumn(8)>]
         Rings : single
     }
@@ -47,18 +55,15 @@ let pipeline =
         .Append(context.Transforms.Concatenate("Features", "Sex", "Length", "Diameter", "Height", "WholeWeight", "ShuckedWeight", "VisceraWeight", "ShellWeight"))
         .Append(context.Transforms.NormalizeMinMax(outputColumnName = "FeaturesNorm", inputColumnName = "Features"))
 
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values)
-|> Seq.iter (printfn "%A")
-
-printfn "---------------------------"
-
 let transformer = pipeline.Fit(dataView)
 let transformedDataView = transformer.Transform(dataView)
-transformedDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values.[12])
-|> Seq.map (fun v -> v.Value :?> VBuffer<single>)
-|> Seq.map (fun vec -> vec.DenseValues())
-|> Seq.iter (fun vals -> (vals |> Seq.iter (printf "%A "); printfn ""))
+
+let features = transformedDataView.GetColumn<single[]>("Features")
+let featuresNorm = transformedDataView.GetColumn<single[]>("FeaturesNorm")
+
+do
+    featuresNorm
+    |> Seq.zip features
+    |> Seq.map (fun (x, y) -> Seq.zip x y)
+    |> Seq.head
+    |> Seq.iter (printfn "%A")
