@@ -14,20 +14,28 @@ type AbaloneData =
     {
         [<LoadColumn(0)>]
         Sex : string
+
         [<LoadColumn(1)>]
         Length : float32
+
         [<LoadColumn(2)>]
         Diameter : float32
+
         [<LoadColumn(3)>]
         Height : float32
+
         [<LoadColumn(4)>]
         WholeWeight : float32
+
         [<LoadColumn(5)>]
         ShuckedWeight : float32
+
         [<LoadColumn(6)>]
         VisceraWeight : float32
+
         [<LoadColumn(7)>]
         ShellWeight : float32
+
         [<LoadColumn(8)>]
         Rings : single
     }
@@ -51,7 +59,7 @@ let encoder = context.Transforms.Categorical.OneHotEncoding(inputColumnName = "S
 let transformer = encoder.Fit(dataView)
 let transformedDataView = transformer.Transform(dataView)
 
-let encodedLabels = context.Data.CreateEnumerable<EncodedSex>(transformedDataView, reuseRowObject = false)
+let encodedLabels = context.Data.CreateEnumerable<EncodedSex>(transformedDataView, reuseRowObject = true)
 do
     encodedLabels
     |> Seq.take 10

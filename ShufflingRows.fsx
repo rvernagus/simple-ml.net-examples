@@ -13,20 +13,28 @@ type AbaloneData =
     {
         [<LoadColumn(0)>]
         Sex : string
+
         [<LoadColumn(1)>]
         Length : float32
+
         [<LoadColumn(2)>]
         Diameter : float32
+
         [<LoadColumn(3)>]
         Height : float32
+
         [<LoadColumn(4)>]
         WholeWeight : float32
+
         [<LoadColumn(5)>]
         ShuckedWeight : float32
+
         [<LoadColumn(6)>]
         VisceraWeight : float32
+
         [<LoadColumn(7)>]
         ShellWeight : float32
+
         [<LoadColumn(8)>]
         Rings : single
     }
@@ -41,14 +49,17 @@ let context = new MLContext()
 let dataView = context.Data.LoadFromTextFile<AbaloneData>("abalone.data", hasHeader = false, separatorChar = ',')
 printfn "%A" dataView.CanShuffle
 
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values)
-|> Seq.iter (printfn "%A")
+do
+    dataView.Preview().RowView
+    |> Seq.take 5
+    |> Seq.map (fun row -> row.Values)
+    |> Seq.iter (printfn "%A")
+    printfn "---------------------------"
 
-printfn "---------------------------"
 let shuffledDataView = context.Data.ShuffleRows(dataView)
-shuffledDataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values)
-|> Seq.iter (printfn "%A")
+
+do
+    shuffledDataView.Preview().RowView
+    |> Seq.take 5
+    |> Seq.map (fun row -> row.Values)
+    |> Seq.iter (printfn "%A")
