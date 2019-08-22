@@ -27,12 +27,14 @@ let loader = context.Data.CreateTextLoader([|
     |], hasHeader = false, separatorChar = ',')
 
 let dataView = loader.Load("abalone.data")
-printfn "Counted %A rows" <| dataView.GetRowCount()
+do
+    printfn "Counted %A rows" <| dataView.GetRowCount()
 
-printfn "Counted %d rows" <| Seq.length (dataView.Preview().RowView)
+    printfn "Counted %d rows" <| Seq.length (dataView.Preview().RowView)
 
 let cursor = dataView.GetRowCursor(dataView.Schema)
 let mutable count = 0
 while cursor.MoveNext() do
     count <- count+1
-printfn "Counted %d rows" count
+do
+    printfn "Counted %d rows" count

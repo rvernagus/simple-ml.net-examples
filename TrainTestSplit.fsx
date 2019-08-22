@@ -53,7 +53,9 @@ let trainDataView, testDataView =
      split.TrainSet, split.TestSet
 
 let trainDataEnum = context.Data.CreateEnumerable<AbaloneData>(trainDataView, reuseRowObject = true)
-printfn "Counted %d training rows" <| Seq.length trainDataEnum
+do
+    printfn "Counted %d training rows" <| Seq.length trainDataEnum
 
 let testDataEnum = context.Data.CreateEnumerable<AbaloneData>(testDataView, reuseRowObject = true)
-printfn "Counted %d test rows" <| Seq.length testDataEnum
+do
+    printfn "Counted %d test rows" <| Seq.length testDataEnum

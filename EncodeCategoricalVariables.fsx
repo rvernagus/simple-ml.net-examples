@@ -1,5 +1,3 @@
-open System.Collections.Generic
-
 #r "Microsoft.ML.Core.dll"
 #r "Microsoft.ML.Data.dll"
 #r "Microsoft.ML.DataView.dll"
@@ -7,6 +5,7 @@ open System.Collections.Generic
 #r "System.Collections.Immutable"
 open Microsoft.ML
 open Microsoft.ML.Data
+open System.Collections.Generic
 open System.IO
 open System.Net
 

@@ -27,7 +27,8 @@ let loader = context.Data.CreateTextLoader([|
     |], hasHeader = false, separatorChar = ',')
 
 let dataView = loader.Load("abalone.data")
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values)
-|> Seq.iter (printfn "%A")
+do
+    dataView.Preview().RowView
+    |> Seq.take 5
+    |> Seq.map (fun row -> row.Values)
+    |> Seq.iter (printfn "%A")

@@ -47,7 +47,8 @@ if not <| File.Exists("ablone.data") then
 let context = new MLContext()
 
 let dataView = context.Data.LoadFromTextFile<AbaloneData>("abalone.data", hasHeader = false, separatorChar = ',')
-dataView.Preview().RowView
-|> Seq.take 5
-|> Seq.map (fun row -> row.Values)
-|> Seq.iter (printfn "%A")
+do
+    dataView.Preview().RowView
+    |> Seq.take 5
+    |> Seq.map (fun row -> row.Values)
+    |> Seq.iter (printfn "%A")

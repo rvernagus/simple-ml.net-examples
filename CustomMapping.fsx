@@ -4,7 +4,6 @@
 #r "Microsoft.ML.Transforms.dll"
 #r "System.Collections.Immutable"
 open Microsoft.ML
-open Microsoft.ML.Data
 open System
 
 
