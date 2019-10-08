@@ -1,6 +1,5 @@
 #! "netcoreapp3.0"
 #r "nuget: Microsoft.ML, 1.3.1"
-// #r "System.Collections.Immutable"
 using Microsoft.ML;
 using Microsoft.ML.Data;
 using System;
@@ -61,12 +60,12 @@ var context = new MLContext();
 
 var dataView = context.Data.LoadFromTextFile<AdultData>("adult.data", hasHeader: false, separatorChar: ',');
 
-var labelLookup = new[]
+var labelLookup = new Dictionary<string, bool>
 {
-    new KeyValuePair<string, bool>("<=50K", false),
-    new KeyValuePair<string, bool>("<=50K.", false),
-    new KeyValuePair<string, bool>(">50K", true),
-    new KeyValuePair<string, bool>(">50K.", true),
+    ["<=50K"] = false,
+    ["<=50K."] = false,
+    [">50K"] = true,
+    [">50K."] = true,
 };
 
 var encoder = context.Transforms.Conversion.MapValue(inputColumnName: "Label", outputColumnName: "EncodedLabel", keyValuePairs: labelLookup);

@@ -1,6 +1,5 @@
 #! "netcoreapp3.0"
 #r "nuget: Microsoft.ML, 1.3.1"
-// #r "System.Collections.Immutable"
 using Microsoft.ML;
 using System;
 using System.Linq;
