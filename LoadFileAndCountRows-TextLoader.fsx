@@ -8,7 +8,7 @@ open System.IO
 open System.Net
 
 
-if not <| File.Exists("ablone.data") then
+if not <| File.Exists("abalone.data") then
     use client = new WebClient()
     client.DownloadFile("https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data", "abalone.data")
 
