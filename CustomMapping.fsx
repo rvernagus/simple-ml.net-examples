@@ -1,8 +1,4 @@
-#r "Microsoft.ML.Core.dll"
-#r "Microsoft.ML.Data.dll"
-#r "Microsoft.ML.DataView.dll"
-#r "Microsoft.ML.Transforms.dll"
-#r "System.Collections.Immutable"
+#load ".paket/load/netcoreapp3.0/main.group.fsx"
 open Microsoft.ML
 open System
 

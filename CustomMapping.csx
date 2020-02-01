@@ -42,6 +42,7 @@ var transformer = encoder.Fit(dataView);
 var transformedDataView = transformer.Transform(dataView);
 
 var mappedData = context.Data.CreateEnumerable<MappedData>(transformedDataView, reuseRowObject: false);
-mappedData
-    .ToList()
-    .ForEach(x => Console.WriteLine(x));
+foreach (var item in mappedData)
+{
+    Console.WriteLine(item);
+}
