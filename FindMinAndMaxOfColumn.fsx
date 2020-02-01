@@ -1,6 +1,4 @@
-#r "Microsoft.ML.Core.dll"
-#r "Microsoft.ML.Data.dll"
-#r "Microsoft.ML.DataView.dll"
+#load ".paket/load/netcoreapp3.0/main.group.fsx"
 open Microsoft.ML
 open Microsoft.ML.Data
 open System.IO
