@@ -73,7 +73,7 @@ var transformer = encoder.Fit(dataView);
 var transformedDataView = transformer.Transform(dataView);
 
 var encodedLabels = context.Data.CreateEnumerable<LabelComparer>(transformedDataView, reuseRowObject: false);
-encodedLabels
-    .Take(10)
-    .ToList()
-    .ForEach(Console.WriteLine);
+foreach (var item in encodedLabels.Take(10))
+{
+    Console.WriteLine(item);
+}

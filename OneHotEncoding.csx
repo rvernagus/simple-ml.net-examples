@@ -60,8 +60,11 @@ var transformedDataView = transformer.Transform(dataView);
 
 var encodedLabels = context.Data.CreateEnumerable<SexComparer>(transformedDataView, reuseRowObject: false);
 var rand = new Random();
-encodedLabels
+var items = encodedLabels
     .OrderBy(_ => rand.Next())
-    .Take(10)
-    .ToList()
-    .ForEach(x => Console.WriteLine(x))
+    .Take(10);
+
+foreach (var item in items)
+{
+    Console.WriteLine(item);
+}

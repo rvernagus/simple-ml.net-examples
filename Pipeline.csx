@@ -53,20 +53,28 @@ var featuresNorm = transformedDataView.GetColumn<float[]>("FeaturesNorm");
 
 
 Console.WriteLine("Unprocessed Data\n----------------------");
-dataView.Preview().RowView
+var items = dataView.Preview().RowView
     .Take(5)
-    .Select(x => string.Join(", ", x.Values))
-    .ToList()
-    .ForEach(x => Console.WriteLine(x));
+    .Select(x => string.Join(", ", x.Values));
+foreach (var item in items)
+{
+    Console.WriteLine(item);
+}
+
 Console.WriteLine("One-Hot Encoded Data\n----------------------");
-features
+items = features
     .Take(5)
-    .Select(x => string.Join(", ", x))
-    .ToList()
-    .ForEach(x => Console.WriteLine(x));
+    .Select(x => string.Join(", ", x));
+foreach (var item in items)
+{
+    Console.WriteLine(item);
+}
+
 Console.WriteLine("One-Hot Encoded and Normalized Data\n----------------------");
-featuresNorm
+items = featuresNorm
     .Take(5)
-    .Select(x => string.Join(", ", x))
-    .ToList()
-    .ForEach(x => Console.WriteLine(x));
+    .Select(x => string.Join(", ", x));
+foreach (var item in items)
+{
+    Console.WriteLine(item);
+}
