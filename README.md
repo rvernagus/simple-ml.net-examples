@@ -5,4 +5,5 @@ Simple, minimalist machine learning examples in F# and ML.NET.
 ___
 1. Install Paket.
 2. Run `paket install`
-3. To execute F# examples: `dotnet fsi <name of script>.fsx`
+3. Run `paket generate-load-scripts`
+4. To execute F# examples: `dotnet fsi <name of script>.fsx`
