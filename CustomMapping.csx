@@ -16,7 +16,7 @@ class MappedData
     public bool IsWeekend { get; set; }
 
     public override string ToString() =>
-        $"{SourceDate}; {Month}; {IsWeekend}";
+        $"{SourceDate, 25} {Month, 5} {IsWeekend, 9}";
 }
 
 var context = new MLContext();
@@ -40,6 +40,8 @@ var encoder = context.Transforms.CustomMapping<SourceData, MappedData>((input, o
 
 var transformer = encoder.Fit(dataView);
 var transformedDataView = transformer.Transform(dataView);
+
+Console.WriteLine($"{"SourceDate", 25} {"Month", 5} {"IsWeekend", 9}");
 
 var mappedData = context.Data.CreateEnumerable<MappedData>(transformedDataView, reuseRowObject: false);
 foreach (var item in mappedData)
