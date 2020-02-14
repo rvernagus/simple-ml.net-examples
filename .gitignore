@@ -332,3 +332,5 @@ ASALocalRun/
 *.data
 .paket
 *.lock
+.config/
+.ipynb_checkpoints/
